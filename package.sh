@@ -22,6 +22,8 @@ echo "== bundle =="
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp app/.build/release/StemsApp "$APP/Contents/MacOS/$APP_NAME"
+# Drop debug symbols so build-machine paths are not left in the binary.
+strip -S -x "$APP/Contents/MacOS/$APP_NAME"
 cp spike2_split_middle.onnx spike2_split_middle.onnx.data "$APP/Contents/Resources/"
 
 # Fonts (Barlow, SIL OFL): registered automatically via ATSApplicationFontsPath in Info.plist.
@@ -72,6 +74,17 @@ codesign --force --deep --sign - "$APP"
 echo "== verify =="
 codesign --verify --deep --strict "$APP"
 otool -L "$APP/Contents/MacOS/$APP_NAME" | head -n 8
+
+echo "== privacy scan =="
+# Local paths (the home folder of the machine that built the app) must not ship in the app.
+# ONNX Runtime's prebuilt binary contains its CI path (/Users/runner/...), which is not personal.
+LEAKS=$( { LC_ALL=C grep -rao -e "/Users/[^[:space:]\"']*" -e "$HOME[^[:space:]\"']*" "$APP" || true; } | LC_ALL=C grep -av '/Users/runner/' | head -n 10 || true)
+if [[ -n "$LEAKS" ]]; then
+    echo "ERROR: local paths found inside the app. Fix them before publishing:"
+    echo "$LEAKS" | LC_ALL=C cut -c1-200
+    exit 1
+fi
+echo "clean: no local paths in the app"
 
 echo "== dmg =="
 rm -f "$DMG" "$RW_DMG"

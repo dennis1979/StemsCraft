@@ -237,6 +237,10 @@ def main():
         json.dump(result, open(RESULT_PATH, "w"), indent=1)
         raise SystemExit("middle export failed")
 
+    # remove the Python stack traces / local paths the exporter wrote into the model
+    from scrub_onnx import scrub
+    scrub(ONNX_PATH)
+
     # onnxruntime: load + numeric compare
     import onnxruntime as ort
 

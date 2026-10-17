@@ -338,7 +338,7 @@ public final class AppState: ObservableObject {
         let copyFrom = job.copyFrom
         let recordID = job.recordID
         let flag = cancelFlag
-        Task.detached(priority: .userInitiated) {
+        Task.detached(priority: .userInitiated) { [self] in
             let L = audio[0].count
             var sSum = 0.0, sSq = 0.0
             for ch in 0 ..< 2 {
