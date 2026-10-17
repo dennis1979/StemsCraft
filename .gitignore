@@ -1,0 +1,26 @@
+# macOS / Xcode
+.DS_Store
+xcuserdata/
+.swiftpm/
+.build/
+DerivedData/
+
+# Python
+.venv/
+__pycache__/
+
+# Generated models, audio and experiment output (large and/or copyrighted)
+*.onnx
+*.onnx.data
+*.raw
+*.wav
+*.mp3
+*.dmg
+*.log
+dist/
+ab/
+ab-chunk0/
+ab-swift/
+beats-*.json
+spike*_result.json
+spike1_diag.json

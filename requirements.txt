@@ -1,0 +1,7 @@
+# Python packages needed only to export the ONNX model (spike2_split_middle.py).
+# The app itself needs no Python.
+demucs>=4.1.0
+numpy
+onnx
+onnxruntime
+onnxscript
