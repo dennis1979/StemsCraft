@@ -13,14 +13,9 @@ A native macOS app that splits a song into **drums / bass / vocals / other** ste
 - Export stems as WAV
 - Persistent library of analysed songs, so reopening a song is instant (default folder `~/Music/StemsCraft`, changeable in Settings)
 
-## Install (pre-built app)
+## Install
 
-1. Download `StemsCraft-1.0.0.dmg` from the [Releases](../../releases) page and drag **StemsCraft** into Applications. The model is already inside the app.
-2. The app is only ad-hoc signed (not notarised), so macOS will block the first launch. Either open **System Settings → Privacy & Security** and click **Open Anyway**, or run:
-   ```sh
-   xattr -dr com.apple.quarantine /Applications/StemsCraft.app
-   ```
-3. Requires macOS 14 or later. Release builds are made on Apple silicon.
+This repository does not include a pre-built app or the model weights. Build the app on your own Mac by following [Build from source](#build-from-source). It requires macOS 14 or later on an Apple silicon Mac (M1 or later).
 
 ## Using the app
 
@@ -32,7 +27,7 @@ If the empty window says **Model not found**, the app could not find the ONNX mo
 
 ## Build from source
 
-The model file is not in this repository (it is about 170 MB and is derived from the Demucs weights), so you generate it once yourself.
+The model file is not in this repository and is not distributed with this project (it is about 170 MB and is derived from the Demucs weights), so you generate it once yourself on your Mac.
 
 **You need:** a Mac with macOS 14+, Xcode 15 or later (Swift 5.9+), and Python 3.10 or later (the author used 3.14). The first model export also downloads the pretrained HTDemucs weights through Demucs, so it needs an internet connection.
 
@@ -57,7 +52,7 @@ The script finishes with `PASS` and writes `spike2_split_middle.onnx` and `spike
 open dist/StemsCraft.app
 ```
 
-`package.sh` produces `dist/StemsCraft.app` and `dist/StemsCraft-<version>.dmg` (the version comes from the `VERSION` file) with the model, fonts and licence files inside the app bundle.
+`package.sh` produces `dist/StemsCraft.app` and `dist/StemsCraft-<version>.dmg` (the version comes from the `VERSION` file) with the fonts and licence files inside the app bundle. If you generated the model yourself, it is bundled too: keep the resulting app and DMG for your own use and do not redistribute them, because they contain the model.
 
 ### Command-line separation
 
@@ -78,7 +73,7 @@ In this order: inside the app bundle, the `STEMS_MODEL` environment variable, th
 
 - `swift build` fails: install the Xcode command line tools (`xcode-select --install`) and make sure `xcodebuild -version` reports 15 or later.
 - The export script cannot install or import `demucs`: use a fresh virtual environment, and a recent Python.
-- macOS says the app "is damaged" or "cannot be opened": see the `xattr` command under Install.
+- macOS says the app "is damaged" or "cannot be opened": open **System Settings → Privacy & Security** and click **Open Anyway**, or run `xattr -dr com.apple.quarantine dist/StemsCraft.app`.
 
 ## How the model was adapted for macOS
 
@@ -169,7 +164,7 @@ StemsCraft builds on the following work. Their copyrights and licenses remain wi
 
 | Component | Used for | Copyright | License |
 | --- | --- | --- | --- |
-| [Demucs / HTDemucs](https://github.com/facebookresearch/demucs) (code and pretrained `htdemucs` weights) | Source separation. The ONNX model produced by `spike2_split_middle.py`, and the Swift STFT/mask pipeline (`Spectrogram.swift`, `Separator.swift`), are derived from this model and code. | Copyright (c) Meta Platforms, Inc. and affiliates | MIT |
+| [Demucs / HTDemucs](https://github.com/facebookresearch/demucs) (code; the pretrained `htdemucs` weights are not included) | Source separation. The ONNX model produced by `spike2_split_middle.py`, and the Swift STFT/mask pipeline (`Spectrogram.swift`, `Separator.swift`), are derived from this model and code. | Copyright (c) Meta Platforms, Inc. and affiliates | Code: MIT. Pretrained weights: licence not confirmed; the upstream maintainer states they are provided for research purposes (see THIRD_PARTY_NOTICES.md). |
 | [ONNX Runtime](https://github.com/microsoft/onnxruntime) via [onnxruntime-swift-package-manager](https://github.com/microsoft/onnxruntime-swift-package-manager) | Runs the model on-device. Linked into the app. | Copyright (c) Microsoft Corporation | MIT |
 | [Barlow](https://github.com/jpt/barlow) and Barlow Condensed fonts (`Assets/Fonts`) | UI typography. License text in `Assets/Fonts/OFL.txt`. | Copyright 2017 The Barlow Project Authors | SIL Open Font License 1.1 |
 | [PyTorch](https://github.com/pytorch/pytorch), [ONNX](https://github.com/onnx/onnx) | Build-time only, for exporting the model. Not redistributed. | Their respective authors | BSD-style / Apache-2.0 |

@@ -13,14 +13,9 @@ StemsCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / �
 - 可將分離後的各軌匯出為 WAV
 - 已分析的歌曲會存入資料庫,再次開啟同一首歌是即時的(預設資料夾為 `~/Music/StemsCraft`,可在設定中更改)
 
-## 安裝(預先建置的 App)
+## 安裝
 
-1. 從 [Releases](../../releases) 頁面下載 `StemsCraft-1.0.0.dmg`,把 **StemsCraft** 拖到「應用程式」資料夾。模型已包含在 App 內。
-2. 這個 App 只有臨時簽章,沒有經過 Apple 公證,所以 macOS 第一次開啟時會阻擋。請到 **系統設定 → 隱私權與安全性**,按一下 **仍要打開**;或執行:
-   ```sh
-   xattr -dr com.apple.quarantine /Applications/StemsCraft.app
-   ```
-3. 需要 macOS 14 或更新版本。發佈版本是在 Apple 晶片的 Mac 上建置的。
+本專案不提供預先建置的 App,也不包含模型權重。請依照下方的「從原始碼建置」,在自己的 Mac 上建置。需要 macOS 14 或更新版本,以及 Apple 晶片(M1 或更新)的 Mac。
 
 ## 使用方式
 
@@ -32,7 +27,7 @@ StemsCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / �
 
 ## 從原始碼建置
 
-模型檔不在這個 repo 裡(約 170 MB,是從 Demucs 權重衍生的),所以需要你自己產生一次。
+模型檔不在這個 repo 裡,本專案也不散佈它(約 170 MB,是從 Demucs 權重衍生的),所以需要你自己在本機產生一次。
 
 **你需要:** macOS 14 以上的 Mac、Xcode 15 以上(Swift 5.9 以上),以及 Python 3.10 以上(作者使用的是 3.14)。第一次匯出模型時,Demucs 會下載預訓練的 HTDemucs 權重,所以需要網路連線。
 
@@ -57,7 +52,7 @@ python spike2_split_middle.py
 open dist/StemsCraft.app
 ```
 
-`package.sh` 會產生 `dist/StemsCraft.app` 和 `dist/StemsCraft-<版本號>.dmg`(版本號取自 `VERSION` 檔),App 內已包含模型、字型與授權檔案。
+`package.sh` 會產生 `dist/StemsCraft.app` 和 `dist/StemsCraft-<版本號>.dmg`(版本號取自 `VERSION` 檔),App 內包含字型與授權檔案。如果你在本機產生了模型,模型也會被打包進 App 和 DMG。這些檔案僅供個人使用,請勿再散佈,因為其中包含模型。
 
 ### 命令列分離
 
@@ -78,7 +73,7 @@ app/.build/release/StemsCLI <song.mp3|wav|...> spike2_split_middle.onnx <output-
 
 - `swift build` 失敗:安裝 Xcode 命令列工具(`xcode-select --install`),並確認 `xcodebuild -version` 顯示 15 以上。
 - 匯出腳本無法安裝或匯入 `demucs`:請使用乾淨的虛擬環境,並使用較新的 Python。
-- macOS 顯示 App「已損毀」或「無法打開」:請參考上方「安裝」中的 `xattr` 指令。
+- macOS 顯示 App「已損毀」或「無法打開」:請到 **系統設定 → 隱私權與安全性**,按一下 **仍要打開**;或執行 `xattr -dr com.apple.quarantine dist/StemsCraft.app`。
 
 ## 為 macOS 調整模型的過程
 
@@ -169,7 +164,7 @@ StemsCraft 建立在以下的成果之上。它們的版權與授權仍歸原作
 
 | 元件 | 用途 | 版權 | 授權 |
 | --- | --- | --- | --- |
-| [Demucs / HTDemucs](https://github.com/facebookresearch/demucs)(程式碼與預訓練的 `htdemucs` 權重) | 音源分離。`spike2_split_middle.py` 產生的 ONNX 模型,以及 Swift 的 STFT/遮罩流程(`Spectrogram.swift`、`Separator.swift`),都是從這個模型和程式碼衍生的。 | Copyright (c) Meta Platforms, Inc. and affiliates | MIT |
+| [Demucs / HTDemucs](https://github.com/facebookresearch/demucs)(程式碼;預訓練的 `htdemucs` 權重不包含在本 repo 中) | 音源分離。`spike2_split_middle.py` 產生的 ONNX 模型,以及 Swift 的 STFT/遮罩流程(`Spectrogram.swift`、`Separator.swift`),都是從這個模型和程式碼衍生的。 | Copyright (c) Meta Platforms, Inc. and affiliates | 程式碼:MIT。預訓練權重:授權尚未確認,上游表示僅供研究用途(見 THIRD_PARTY_NOTICES.md) |
 | [ONNX Runtime](https://github.com/microsoft/onnxruntime),透過 [onnxruntime-swift-package-manager](https://github.com/microsoft/onnxruntime-swift-package-manager) | 在裝置上執行模型,已連結進 App。 | Copyright (c) Microsoft Corporation | MIT |
 | [Barlow](https://github.com/jpt/barlow) 與 Barlow Condensed 字型(`Assets/Fonts`) | 介面字型。授權內容見 `Assets/Fonts/OFL.txt`。 | Copyright 2017 The Barlow Project Authors | SIL Open Font License 1.1 |
 | [PyTorch](https://github.com/pytorch/pytorch)、[ONNX](https://github.com/onnx/onnx) | 僅在建置時用於匯出模型,不隨 repo 發佈。 | 各自的作者 | BSD 類 / Apache-2.0 |
