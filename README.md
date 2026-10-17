@@ -1,8 +1,8 @@
 # StemCraft
 
-A native macOS app that splits a song into **drums / bass / vocals / other** stems, entirely on your own machine, and lets you play with them: mute, solo, per-stem volume, tempo change, and a detected beat grid.
+**English** | [繁體中文](README.zh-TW.md)
 
-> 中文簡介:StemCraft 是一個 macOS 原生 App,在本機把歌曲分離成鼓、貝斯、人聲、其他四軌,可獨立靜音/獨奏/調音量,並自動偵測 BPM 與拍點。所有運算都在本機完成,不上傳任何音訊。
+A native macOS app that splits a song into **drums / bass / vocals / other** stems, entirely on your own machine, and lets you play with them: mute, solo, per-stem volume, tempo change, and a detected beat grid.
 
 ## Features
 
@@ -37,7 +37,7 @@ The model file is not in this repository (it is about 170 MB and is derived from
 **You need:** a Mac with macOS 14+, Xcode 15 or later (Swift 5.9+), and Python 3.10 or later (the author used 3.14). The first model export also downloads the pretrained HTDemucs weights through Demucs, so it needs an internet connection.
 
 ```sh
-git clone https://github.com/<you>/<repo>.git StemCraft
+git clone git@github.com:dennis1979/StemCraft.git StemCraft
 cd StemCraft
 
 # 1. Create the ONNX model
