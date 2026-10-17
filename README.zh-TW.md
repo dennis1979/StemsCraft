@@ -1,8 +1,8 @@
-# StemCraft
+# StemsCraft
 
 [English](README.md) | **繁體中文**
 
-StemCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / 貝斯 / 人聲 / 其他**四軌,並讓你自由播放:靜音、獨奏、各軌音量、變速,以及自動偵測的拍點格線。所有運算都在本機完成,不會上傳任何音訊。
+StemsCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / 貝斯 / 人聲 / 其他**四軌,並讓你自由播放:靜音、獨奏、各軌音量、變速,以及自動偵測的拍點格線。所有運算都在本機完成,不會上傳任何音訊。
 
 ## 功能
 
@@ -37,8 +37,8 @@ StemCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / �
 **你需要:** macOS 14 以上的 Mac、Xcode 15 以上(Swift 5.9 以上),以及 Python 3.10 以上(作者使用的是 3.14)。第一次匯出模型時,Demucs 會下載預訓練的 HTDemucs 權重,所以需要網路連線。
 
 ```sh
-git clone git@github.com:dennis1979/StemCraft.git StemCraft
-cd StemCraft
+git clone git@github.com:dennis1979/StemsCraft.git StemsCraft
+cd StemsCraft
 
 # 1. 產生 ONNX 模型
 python3 -m venv .venv
@@ -82,11 +82,11 @@ app/.build/release/StemsCLI <song.mp3|wav|...> spike2_split_middle.onnx <output-
 
 ## 為 macOS 調整模型的過程
 
-HTDemucs 無法整體匯出成 ONNX,而且 Apple 平台沒有 PyTorch 執行環境,所以 StemCraft 把模型拆開:訊號處理的部分用 Swift 在本機執行,只有實數的神經網路核心跑在 ONNX Runtime 上。
+HTDemucs 無法整體匯出成 ONNX,而且 Apple 平台沒有 PyTorch 執行環境,所以 StemsCraft 把模型拆開:訊號處理的部分用 Swift 在本機執行,只有實數的神經網路核心跑在 ONNX Runtime 上。
 
 ### 背景:先前嘗試的做法
 
-StemCraft 源自一個網頁版原型。在做原生 App 之前,我們在 Apple Silicon 上試過三種分離引擎:
+StemsCraft 源自一個網頁版原型。在做原生 App 之前,我們在 Apple Silicon 上試過三種分離引擎:
 
 | 引擎 | 執行位置 | 結果 |
 | --- | --- | --- |
@@ -159,13 +159,13 @@ Swift (Accelerate / vDSP)                        ONNX Runtime                   
 
 ## 授權
 
-StemCraft 本身的原始碼以 [MIT 授權](LICENSE)釋出,版權所有 (c) 2026 北極熊喝水。
+StemsCraft 本身的原始碼以 [MIT 授權](LICENSE)釋出,版權所有 (c) 2026 北極熊喝水。
 
 第三方授權的完整內容與其要求的聲明,請見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 第三方軟體、模型與素材
 
-StemCraft 建立在以下的成果之上。它們的版權與授權仍歸原作者所有,**不會**因為 StemCraft 採用 MIT 授權而改變。
+StemsCraft 建立在以下的成果之上。它們的版權與授權仍歸原作者所有,**不會**因為 StemsCraft 採用 MIT 授權而改變。
 
 | 元件 | 用途 | 版權 | 授權 |
 | --- | --- | --- | --- |
@@ -175,7 +175,7 @@ StemCraft 建立在以下的成果之上。它們的版權與授權仍歸原作�
 | [PyTorch](https://github.com/pytorch/pytorch)、[ONNX](https://github.com/onnx/onnx) | 僅在建置時用於匯出模型,不隨 repo 發佈。 | 各自的作者 | BSD 類 / Apache-2.0 |
 | Apple 系統框架(SwiftUI、AVFoundation、Accelerate) | 音訊解碼、播放、數位訊號處理、介面。由 macOS / Xcode 提供,不隨 repo 發佈。 | Apple Inc. | Apple SDK 授權 |
 
-`requirements.txt` 中的其他 Python 套件(numpy、onnx、onnxscript、onnxruntime)只用於匯出模型,不隨 StemCraft 發佈,各自有其授權。
+`requirements.txt` 中的其他 Python 套件(numpy、onnx、onnxscript、onnxruntime)只用於匯出模型,不隨 StemsCraft 發佈,各自有其授權。
 
 如果你使用或引用這個模型,請也引用原始論文:
 

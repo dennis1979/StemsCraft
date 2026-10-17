@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to StemCraft are listed here. Versions follow [Semantic Versioning](https://semver.org/).
+All notable changes to StemsCraft are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 Chinese version: [CHANGELOG.zh-TW.md](CHANGELOG.zh-TW.md).
 
 ## [1.0.0] - 2026-10-17

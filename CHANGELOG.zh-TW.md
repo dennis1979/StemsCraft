@@ -1,6 +1,6 @@
 # 更新紀錄
 
-本檔記錄 StemCraft 每個版本的變更。版本號遵循 [語意化版本（Semantic Versioning）](https://semver.org/lang/zh-TW/)。
+本檔記錄 StemsCraft 每個版本的變更。版本號遵循 [語意化版本（Semantic Versioning）](https://semver.org/lang/zh-TW/)。
 英文版：[CHANGELOG.md](CHANGELOG.md)。
 
 ## [1.0.0] - 2026-10-17

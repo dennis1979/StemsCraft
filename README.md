@@ -1,4 +1,4 @@
-# StemCraft
+# StemsCraft
 
 **English** | [繁體中文](README.zh-TW.md)
 
@@ -37,8 +37,8 @@ The model file is not in this repository (it is about 170 MB and is derived from
 **You need:** a Mac with macOS 14+, Xcode 15 or later (Swift 5.9+), and Python 3.10 or later (the author used 3.14). The first model export also downloads the pretrained HTDemucs weights through Demucs, so it needs an internet connection.
 
 ```sh
-git clone git@github.com:dennis1979/StemCraft.git StemCraft
-cd StemCraft
+git clone git@github.com:dennis1979/StemsCraft.git StemsCraft
+cd StemsCraft
 
 # 1. Create the ONNX model
 python3 -m venv .venv
@@ -82,11 +82,11 @@ In this order: inside the app bundle, the `STEMS_MODEL` environment variable, th
 
 ## How the model was adapted for macOS
 
-HTDemucs cannot be exported to ONNX as a whole, and Apple platforms have no PyTorch runtime, so StemCraft splits the model: the signal-processing parts run natively in Swift, and only the real-valued neural core runs in ONNX Runtime.
+HTDemucs cannot be exported to ONNX as a whole, and Apple platforms have no PyTorch runtime, so StemsCraft splits the model: the signal-processing parts run natively in Swift, and only the real-valued neural core runs in ONNX Runtime.
 
 ### Background: earlier approaches
 
-StemCraft grew out of a web-based prototype. Three separation engines were tried on Apple Silicon before the native app:
+StemsCraft grew out of a web-based prototype. Three separation engines were tried on Apple Silicon before the native app:
 
 | Engine | Where it ran | Outcome |
 | --- | --- | --- |
@@ -159,13 +159,13 @@ These are single runs on one machine, not benchmarks. The native app currently t
 
 ## License
 
-StemCraft's own source code is released under the [MIT License](LICENSE), Copyright (c) 2026 北極熊喝水.
+StemsCraft's own source code is released under the [MIT License](LICENSE), Copyright (c) 2026 北極熊喝水.
 
 The full texts of third-party licences and the notices required by them are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Third-party software, models and assets
 
-StemCraft builds on the following work. Their copyrights and licenses remain with their respective owners and are **not** changed by StemCraft's MIT license.
+StemsCraft builds on the following work. Their copyrights and licenses remain with their respective owners and are **not** changed by StemsCraft's MIT license.
 
 | Component | Used for | Copyright | License |
 | --- | --- | --- | --- |
@@ -175,7 +175,7 @@ StemCraft builds on the following work. Their copyrights and licenses remain wit
 | [PyTorch](https://github.com/pytorch/pytorch), [ONNX](https://github.com/onnx/onnx) | Build-time only, for exporting the model. Not redistributed. | Their respective authors | BSD-style / Apache-2.0 |
 | Apple frameworks (SwiftUI, AVFoundation, Accelerate) | Audio decoding, playback, DSP, UI. Provided by macOS / Xcode, not redistributed. | Apple Inc. | Apple SDK license |
 
-Other Python packages listed in `requirements.txt` (numpy, onnx, onnxscript, onnxruntime) are used only to export the model. They are not distributed with StemCraft and carry their own licences.
+Other Python packages listed in `requirements.txt` (numpy, onnx, onnxscript, onnxruntime) are used only to export the model. They are not distributed with StemsCraft and carry their own licences.
 
 If you use or cite the model, please also credit the original paper:
 

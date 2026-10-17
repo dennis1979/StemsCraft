@@ -1,12 +1,12 @@
 # Third-party notices
 
-StemCraft itself is licensed under the MIT License (see `LICENSE`). It includes or is derived from the following third-party work. Their licences are reproduced or referenced below.
+StemsCraft itself is licensed under the MIT License (see `LICENSE`). It includes or is derived from the following third-party work. Their licences are reproduced or referenced below.
 
 ## Demucs / HTDemucs (code and pretrained weights)
 
 https://github.com/facebookresearch/demucs
 
-The ONNX model shipped with or generated for StemCraft is derived from the pretrained `htdemucs` weights and model code, and the Swift STFT / mask pipeline follows Demucs' implementation.
+The ONNX model shipped with or generated for StemsCraft is derived from the pretrained `htdemucs` weights and model code, and the Swift STFT / mask pipeline follows Demucs' implementation.
 
 ```
 MIT License
