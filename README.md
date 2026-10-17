@@ -15,7 +15,7 @@ A native macOS app that splits a song into **drums / bass / vocals / other** ste
 
 ## Install (pre-built app)
 
-1. Download `StemsCraft.dmg` from the [Releases](../../releases) page and drag **StemsCraft** into Applications. The model is already inside the app.
+1. Download `StemsCraft-1.0.0.dmg` from the [Releases](../../releases) page and drag **StemsCraft** into Applications. The model is already inside the app.
 2. The app is only ad-hoc signed (not notarised), so macOS will block the first launch. Either open **System Settings → Privacy & Security** and click **Open Anyway**, or run:
    ```sh
    xattr -dr com.apple.quarantine /Applications/StemsCraft.app
@@ -57,7 +57,7 @@ The script finishes with `PASS` and writes `spike2_split_middle.onnx` and `spike
 open dist/StemsCraft.app
 ```
 
-`package.sh` produces `dist/StemsCraft.app` and `dist/StemsCraft.dmg` with the model, fonts and licence files inside the app bundle.
+`package.sh` produces `dist/StemsCraft.app` and `dist/StemsCraft-<version>.dmg` (the version comes from the `VERSION` file) with the model, fonts and licence files inside the app bundle.
 
 ### Command-line separation
 

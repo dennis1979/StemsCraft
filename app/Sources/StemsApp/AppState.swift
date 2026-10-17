@@ -228,6 +228,7 @@ public final class AppState: ObservableObject {
                 try? writeWAV(path: u.path, stereo: track)
                 urls.append(u)
             }
+            let trackURLs = urls
             let peaks = tracks.map { AppState.peaks(of: $0) }
             // 2. library files (song folder copy, original + stems).
             if let lw = libraryWrite {
@@ -263,7 +264,7 @@ public final class AppState: ObservableObject {
                 let names = ["Original"] + SeparatedSong.names.map { $0.capitalized }
                 self.trackNames = names
                 self.peaks = peaks
-                self.player.load(names: names, urls: urls)
+                self.player.load(names: names, urls: trackURLs)
                 self.clickKey = nil
                 self.bpm = beatsInfo.bpm
                 self.beatTimes = beatsInfo.beats
@@ -336,6 +337,7 @@ public final class AppState: ObservableObject {
         let model = modelPath
         let copyFrom = job.copyFrom
         let recordID = job.recordID
+        let flag = cancelFlag
         Task.detached(priority: .userInitiated) {
             let L = audio[0].count
             var sSum = 0.0, sSq = 0.0
@@ -349,7 +351,6 @@ public final class AppState: ObservableObject {
             do {
                 await MainActor.run { [weak self] in self?.status = "Loading model…" }
                 let sep = try Separator(modelPath: model)
-                let flag = self.cancelFlag
                 let out = try sep.separate(norm) { p in
                     Task { @MainActor [weak self] in
                         self?.progress = p
@@ -380,7 +381,8 @@ public final class AppState: ObservableObject {
                                     selectID: lw?.record.id, status: "Done")
                 }
             } catch is CancellationError {
-                await MainActor.run {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
                     self.workerBusy = false
                     // Cancelled by a newer job (or Cancel button): hand over.
                     if serial == self.jobSerial {
@@ -392,7 +394,8 @@ public final class AppState: ObservableObject {
                     self.startNext()
                 }
             } catch {
-                await MainActor.run {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
                     self.workerBusy = false
                     if serial == self.jobSerial {
                         self.isSeparating = false
@@ -581,12 +584,14 @@ public final class AppState: ObservableObject {
                 }
                 return
             }
+            let healedNow = healed
+            let adoptNow = adoptFrom
             await MainActor.run { [weak self] in
                 guard let self, view == self.viewSerial else { return }
                 self.isLoading = false
                 self.setupSong(audio: audio, source: legacySrc, title: r.title, updateUI: false)
-                if healed {
-                    if let adoptFrom { self.adoptCopy(recordID: id, from: adoptFrom) }
+                if healedNow {
+                    if let adoptNow { self.adoptCopy(recordID: id, from: adoptNow) }
                     self.finishSong(title: r.title, audio: audio,
                                     loadDenorm: { try stemPaths.map { try readWAVFloats(path: $0) } },
                                     beatsInfo: info, libraryWrite: nil,

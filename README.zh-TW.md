@@ -15,7 +15,7 @@ StemCraft 是一個 macOS 原生 App,可以在本機把歌曲分離成**鼓 / �
 
 ## 安裝(預先建置的 App)
 
-1. 從 [Releases](../../releases) 頁面下載 `StemsCraft.dmg`,把 **StemsCraft** 拖到「應用程式」資料夾。模型已包含在 App 內。
+1. 從 [Releases](../../releases) 頁面下載 `StemsCraft-1.0.0.dmg`,把 **StemsCraft** 拖到「應用程式」資料夾。模型已包含在 App 內。
 2. 這個 App 只有臨時簽章,沒有經過 Apple 公證,所以 macOS 第一次開啟時會阻擋。請到 **系統設定 → 隱私權與安全性**,按一下 **仍要打開**;或執行:
    ```sh
    xattr -dr com.apple.quarantine /Applications/StemsCraft.app
@@ -57,7 +57,7 @@ python spike2_split_middle.py
 open dist/StemsCraft.app
 ```
 
-`package.sh` 會產生 `dist/StemsCraft.app` 和 `dist/StemsCraft.dmg`,App 內已包含模型、字型與授權檔案。
+`package.sh` 會產生 `dist/StemsCraft.app` 和 `dist/StemsCraft-<版本號>.dmg`(版本號取自 `VERSION` 檔),App 內已包含模型、字型與授權檔案。
 
 ### 命令列分離
 
