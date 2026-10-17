@@ -7,6 +7,8 @@
 
 第一個公開版本。
 
+**系統需求：** Apple 晶片（Apple silicon，M1 以上）的 Mac，macOS 14（Sonoma）以上。不支援 Intel 架構的 Mac。
+
 ### 新增
 - 使用 HTDemucs 將歌曲分離為四軌（鼓、貝斯、人聲、其他），透過 ONNX Runtime 在本機執行。安裝完成後不需要網路連線。
 - 分軌播放器：每一軌都可以靜音、獨奏、調整音量，並支援變速不變調（time-stretch）。
